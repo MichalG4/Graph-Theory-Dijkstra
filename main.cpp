@@ -3,7 +3,7 @@
 const int V = 100; // number of vertices
 // to-do: implement hash-map
 
-struct heap_max_priority_queue
+struct binary_heap_max_priority_queue
 {
     int *table;
     int size;
@@ -31,7 +31,7 @@ struct heap_max_priority_queue
     }
     int parent_node(int index)
     {
-        return (index) >= 0 ? floor((index - 1) / 2) : 0;
+        return (index) >= 0 ? floor((index - 1) / 2) : 0; //floor() for readability 
     }
     void swap(int a, int b)
     {
@@ -52,27 +52,42 @@ struct heap_max_priority_queue
     }
     void heap_down(int index)
     {
-        int max_child; // max child's index
-        max_child = table[left_node(index)] > table[right_node(index)] ? left_node(index) : right_node(index);
-        if (table[max_child] > table[index])
+        int max_child = 0;                                                                                         // max child's index
+        if (right_node(index) < size)                                                                              // Find max child
+            max_child = table[left_node(index)] > table[right_node(index)] ? left_node(index) : right_node(index); // Find max child
+        else if (left_node(index) < size)                                                                          // Find max child
+            max_child = table[left_node(index)];                                                                   // Find max child
+        else
+            return;
+        if ((max_child > 0) && (table[max_child] > table[index]))
         {
-            swap(index, max_child);   
-            heap_down(max_child);         
+            swap(index, max_child);
+            heap_down(max_child);
         }
     }
-    void insert(int element)
+    void enqueue(int element)
     {
         table[size] = element;
         heap_up(size);
         size++;
+    }
+    int dequeue()
+    {
+        swap(0,--size);
+        heap_down(0);
+        return table[size];
     }
     int peek()
     {
         return table[0];
     }
     void delete_max()
+    {
+        swap(0,--size);
+    }
+
 };
-typedef struct heap_max_priority_queue MAX_PQ;
+typedef struct binary_heap_max_priority_queue MAX_PQ;
 int main()
 {
 
