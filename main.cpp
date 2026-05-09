@@ -50,12 +50,27 @@ struct heap_max_priority_queue
             heap_up(parent_index);
         }
     }
+    void heap_down(int index)
+    {
+        int max_child; // max child's index
+        max_child = table[left_node(index)] > table[right_node(index)] ? left_node(index) : right_node(index);
+        if (table[max_child] > table[index])
+        {
+            swap(index, max_child);   
+            heap_down(max_child);         
+        }
+    }
     void insert(int element)
     {
         table[size] = element;
         heap_up(size);
         size++;
     }
+    int peek()
+    {
+        return table[0];
+    }
+    void delete_max()
 };
 typedef struct heap_max_priority_queue MAX_PQ;
 int main()
