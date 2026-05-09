@@ -1,23 +1,25 @@
 #include <iostream>
 #include <cmath>
 const int V = 100; // number of vertices
-// to-do: implement hash-map
+// to-do: 
+// implement hash-map
+// error_handler for peek(),dequeure() and delete_max()
 
 struct binary_heap_max_priority_queue
 {
     int *table;
     int size;
-    heap_max_priority_queue()
+    binary_heap_max_priority_queue()
     {
         table = new int[V];
         size = 0;
     }
-    heap_max_priority_queue(int SIZE)
+    binary_heap_max_priority_queue(int SIZE)
     {
         table = new int[SIZE];
         size = 0;
     }
-    ~heap_max_priority_queue()
+    ~binary_heap_max_priority_queue()
     {
         delete[] table;
     }
@@ -31,7 +33,7 @@ struct binary_heap_max_priority_queue
     }
     int parent_node(int index)
     {
-        return (index) >= 0 ? floor((index - 1) / 2) : 0; //floor() for readability 
+        return index >= 0 ? floor((index - 1) / 2) : 0; //floor() for readability 
     }
     void swap(int a, int b)
     {
@@ -52,11 +54,11 @@ struct binary_heap_max_priority_queue
     }
     void heap_down(int index)
     {
-        int max_child = 0;                                                                                         // max child's index
+        int max_child = 0;  // max child's index
         if (right_node(index) < size)                                                                              // Find max child
             max_child = table[left_node(index)] > table[right_node(index)] ? left_node(index) : right_node(index); // Find max child
         else if (left_node(index) < size)                                                                          // Find max child
-            max_child = table[left_node(index)];                                                                   // Find max child
+            max_child = left_node(index);                                                                   // Find max child
         else
             return;
         if ((max_child > 0) && (table[max_child] > table[index]))
@@ -73,17 +75,21 @@ struct binary_heap_max_priority_queue
     }
     int dequeue()
     {
+        if (size == 0) return -1;
         swap(0,--size);
         heap_down(0);
         return table[size];
     }
     int peek()
     {
+        if (size == 0) return -1;
         return table[0];
     }
     void delete_max()
     {
+        if (size == 0) return;
         swap(0,--size);
+        heap_down(0);
     }
 
 };
