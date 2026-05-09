@@ -7,23 +7,10 @@ const int V = 100; // number of vertices
 
 struct binary_heap_max_priority_queue
 {
+    private:
     int *table;
     int size;
-    binary_heap_max_priority_queue()
-    {
-        table = new int[V];
-        size = 0;
-    }
-    binary_heap_max_priority_queue(int SIZE)
-    {
-        table = new int[SIZE];
-        size = 0;
-    }
-    ~binary_heap_max_priority_queue()
-    {
-        delete[] table;
-    }
-    int left_node(int index)
+        int left_node(int index)
     {
         return ((2 * index) + 1);
     }
@@ -67,6 +54,22 @@ struct binary_heap_max_priority_queue
             heap_down(max_child);
         }
     }
+    public:
+    binary_heap_max_priority_queue()
+    {
+        table = new int[V];
+        size = 0;
+    }
+    binary_heap_max_priority_queue(int SIZE)
+    {
+        table = new int[SIZE];
+        size = 0;
+    }
+    ~binary_heap_max_priority_queue()
+    {
+        delete[] table;
+    }
+
     void enqueue(int element)
     {
         table[size] = element;
