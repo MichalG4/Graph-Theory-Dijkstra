@@ -1,10 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include "MaxHeapPQ.h"
-
-const int V = 100; // number of vertices
-// to-do: 
-// implement hash-map
+#include "Constants.h"
+// to-do:
 // error_handler for peek(),dequeure() and delete_max()
 
 int binary_heap_max_priority_queue::left_node(int index)
