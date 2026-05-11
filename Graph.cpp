@@ -6,6 +6,7 @@
 // implement hash-map
 // one directional edges
 // error handling at connecting one point to self
+// could sort list to make removing easier OR hash map
 AdjacencyMatrix::AdjacencyMatrix()
 {
     Matrix=std::vector<std::vector<int>>(V, std::vector<int>(V,-1));
@@ -69,5 +70,24 @@ void AdjacencyList::AddEdge(int x,int y,int weight)
     {
         List[x].push_back(ListNode(weight,y));
         List[y].push_back(ListNode(weight,x));
+    }
+}
+void AdjacencyList::RemoveEdge(int x,int y) // O(n)
+{
+    for(auto i=List[x].begin(); i!=List[x].end();i++)
+    {
+        if(i->vertice == y)
+        {
+            List[x].erase(i);
+            break;
+        }
+    }
+    for(auto i=List[y].begin(); i!=List[y].end();i++)
+    {
+        if(i->vertice == x)
+        {
+            List[y].erase(i);
+            break;
+        }
     }
 }
