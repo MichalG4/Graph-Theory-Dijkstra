@@ -9,6 +9,7 @@ struct IGraph
     virtual void CountDensity()=0;
     virtual float GetDensity()=0;
     virtual ~IGraph() = default;
+    virtual int GetSpecificEdge(int x,int y)=0;
     protected:
     float density;
     int size; //number of vertices
@@ -25,6 +26,8 @@ struct AdjacencyMatrix:public IGraph
     void RemoveEdge(int x,int y);
     void CountDensity();
     float GetDensity();
+    int GetSpecificEdge(int x,int y);
+    std::vector<int> GetEdges(int y);
     private:
     std::vector<std::vector<int>> Matrix; 
 };
@@ -33,6 +36,7 @@ struct ListNode
     public:
     int vertice;
     int weight;
+    ListNode();
     ListNode(int weight,int vertice);
 };
 struct AdjacencyList:public IGraph
@@ -45,6 +49,8 @@ struct AdjacencyList:public IGraph
     void RemoveEdge(int x,int y);
     void CountDensity();
     float GetDensity();
+    int GetSpecificEdge(int x,int y);
+    std::vector<ListNode> GetEdges(int y);
     private:
     std::vector<std::vector<ListNode>> List; 
 };

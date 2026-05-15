@@ -47,6 +47,15 @@ float AdjacencyMatrix::GetDensity()
 {
     return density;
 }
+std::vector<int> AdjacencyMatrix::GetEdges(int y) //get a vector o edges assigned to specified vertice, maybe should return &?
+{
+    return Matrix[y];
+}
+int AdjacencyMatrix::GetSpecificEdge(int x,int y)
+{
+    return Matrix[x][y];
+}
+ListNode::ListNode() {}
 ListNode::ListNode(int WEIGHT,int VERTICE)
 {
     weight=WEIGHT;
@@ -98,7 +107,15 @@ void AdjacencyList::CountDensity()
 {
     density=edges/(size*(size-1));
 }
-float AdjacencyMatrix::GetDensity()
+float AdjacencyList::GetDensity()
 {
     return density;
+}
+std::vector<int> AdjacencyList::GetEdges(int y)//possibly shold return &
+{
+    return 
+}
+int AdjacencyList::GetSpecificEdge(int x,int y)
+{
+    
 }
