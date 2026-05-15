@@ -7,7 +7,7 @@ struct IGraph
     virtual void AddEdge(int x,int y,int weight)=0;
     virtual void RemoveEdge(int x,int y)=0;
     virtual void CountDensity()=0;
-    virtual float GiveDensity()=0;
+    virtual float GetDensity()=0;
     virtual ~IGraph() = default;
     protected:
     float density;
@@ -24,7 +24,7 @@ struct AdjacencyMatrix:public IGraph
     void AddEdge(int x,int y,int weight);
     void RemoveEdge(int x,int y);
     void CountDensity();
-    float GiveDensity();
+    float GetDensity();
     private:
     std::vector<std::vector<int>> Matrix; 
 };
@@ -44,7 +44,7 @@ struct AdjacencyList:public IGraph
     void AddEdge(int x,int y,int weight);
     void RemoveEdge(int x,int y);
     void CountDensity();
-    float GiveDensity();
+    float GetDensity();
     private:
     std::vector<std::vector<ListNode>> List; 
 };

@@ -36,13 +36,14 @@ void AdjacencyMatrix::RemoveEdge(int x,int y)
     {
         Matrix[x][y]=-1;
         Matrix[y][x]=-1;
+        edges--;
     }
 }
 void AdjacencyMatrix::CountDensity()
 {
     density=edges/(size*(size-1));
 }
-float AdjacencyMatrix::GiveDensity()
+float AdjacencyMatrix::GetDensity()
 {
     return density;
 }
@@ -70,6 +71,7 @@ void AdjacencyList::AddEdge(int x,int y,int weight)
     {
         List[x].push_back(ListNode(weight,y));
         List[y].push_back(ListNode(weight,x));
+        edges++;
     }
 }
 void AdjacencyList::RemoveEdge(int x,int y) // O(n)
@@ -87,7 +89,16 @@ void AdjacencyList::RemoveEdge(int x,int y) // O(n)
         if(i->vertice == x)
         {
             List[y].erase(i);
+            edges--;
             break;
         }
     }
+}
+void AdjacencyList::CountDensity()
+{
+    density=edges/(size*(size-1));
+}
+float AdjacencyMatrix::GetDensity()
+{
+    return density;
 }
