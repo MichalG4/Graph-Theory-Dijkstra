@@ -24,17 +24,15 @@ struct Dijkstra_matrix
     AdjacencyMatrix* Matrix;
     MAX_PQ min_pq; //have to reverse pq since the implemented one is max pq;
     std::vector<Dijkstra_node> node_table;
-    std::vector<int> path;
-    
     Dijkstra_matrix() : Matrix(), min_pq() 
     {
     }
-    Dijkstra_matrix(AdjacencyMatrix &matrix) : Matrix(&matrix),min_pq(),explored_count(0)
+    Dijkstra_matrix(AdjacencyMatrix &matrix) : Matrix(&matrix),min_pq()
     {
         for (int i = 0; i < Matrix->GetSize(); ++i)
         node_table.emplace_back(i);
     }
-    std::vector<int> PathTo(int source,int destination)
+    std::vector<int> PathTo(int source,int destination) //no protection from using it twice - and it will give wrong paths, easily fixable but for demonstation purposes will stay as is
     {
         node_table[source].distance=0;
         node_table[source].is_explored=true;
@@ -45,18 +43,38 @@ struct Dijkstra_matrix
             EnqueueDistances(min_pq.dequeue());
         }
         //path reconstruction
-        std::vector<int> answer;
-        answer.push_back(node_table[destination].distance);
-        answer.push_back(destination);
-        while(node_table[destination].last_node!=-1)
+        std::vector<int> answer=PathReconstruct(source,destination);
+        return answer;
+    }
+
+    std::vector<std::vector<int>> PathToAll(int source)
+    {
+        std::vector<std::vector<int>> answer;
+        if(node_table[source].is_explored==false) PathTo(source,Matrix->GetSize()-1);
+        for (int i = 0; i < Matrix->GetSize(); ++i)
         {
-            destination=node_table[destination].last_node;
-            answer.push_back(destination);
+            if(i==source) answer.push_back(std::vector<int>(2,-1));
+            else
+            {
+                answer.push_back(PathReconstruct(source,i));
+            }
         }
-        answer.push_back(source);
         return answer;
     }
     private:
+    std::vector<int> PathReconstruct(int source,int destination)//at the end gives distance
+    {
+        std::vector<int> path;
+        path.push_back(node_table[destination].distance);
+        path.push_back(destination);
+        while(node_table[destination].last_node!=-1)
+        {
+            destination=node_table[destination].last_node;
+            path.push_back(destination);
+        }
+        if(destination!=source)path.push_back(source);
+        return path;
+    }
     void EnqueueDistances(int x) 
     {
         if(node_table[x].is_explored==true) return; //skip left out entries
@@ -64,7 +82,7 @@ struct Dijkstra_matrix
         {
             if(!node_table[i].is_explored && Matrix->GetSpecificEdge(x,i)>-1/*if it exists*/)
                 {
-                    if((node_table[i].distance==-1 || node_table[x].distance+Matrix->GetSpecificEdge(x,i))<node_table[i].distance)
+                    if((node_table[i].distance==-1 || (node_table[x].distance+Matrix->GetSpecificEdge(x,i))<node_table[i].distance))
                     {
                         node_table[i].distance=(node_table[x].distance+Matrix->GetSpecificEdge(x,i));
                         node_table[i].last_node=x;
