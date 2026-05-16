@@ -10,6 +10,7 @@ struct IGraph
     virtual float GetDensity()=0;
     virtual ~IGraph() = default;
     virtual int GetSpecificEdge(int x,int y)=0;
+    virtual size_t GetSize()=0;
     protected:
     float density;
     int size; //number of vertices i guess not needed as we have vector.size
@@ -51,6 +52,7 @@ struct AdjacencyList:public IGraph
     void CountDensity();
     float GetDensity();
     int GetSpecificEdge(int x,int y);
+    size_t GetSize();
     std::vector<ListNode> GetEdges(int y);
     private:
     std::vector<std::vector<ListNode>> List; 

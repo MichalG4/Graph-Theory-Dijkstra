@@ -17,7 +17,79 @@ struct Dijkstra
 };
 struct Dijkstra_list
 {
-    
+    AdjacencyList* List;
+    MAX_PQ min_pq;
+    std::vector<Dijkstra_node> node_table;
+
+    Dijkstra_list() : List(), min_pq() {}
+
+    Dijkstra_list(AdjacencyList &list) : List(&list), min_pq()
+    {
+        for (int i = 0; i < List->GetSize(); ++i)
+            node_table.emplace_back(i);
+    }
+
+    std::vector<int> PathTo(int source, int destination)
+    {
+        node_table[source].distance = 0;
+        node_table[source].is_explored = true;
+        node_table[source].last_node = -1;
+        min_pq.enqueue(0, source);
+        while (min_pq.peek() != -1)
+        {
+            EnqueueDistances(min_pq.dequeue());
+        }
+        std::vector<int> answer = PathReconstruct(source, destination);
+        return answer;
+    }
+
+    std::vector<std::vector<int>> PathToAll(int source)
+    {
+        std::vector<std::vector<int>> answer;
+        if (node_table[source].is_explored == false) PathTo(source, List->GetSize() - 1);
+        for (int i = 0; i < List->GetSize(); ++i)
+        {
+            if (i == source) answer.push_back(std::vector<int>(2, -1));
+            else answer.push_back(PathReconstruct(source, i));
+        }
+        return answer;
+    }
+
+    private:
+    std::vector<int> PathReconstruct(int source, int destination)
+    {
+        std::vector<int> path;
+        path.push_back(node_table[destination].distance);
+        path.push_back(destination);
+        while (node_table[destination].last_node != -1)
+        {
+            destination = node_table[destination].last_node;
+            path.push_back(destination);
+        }
+        if (destination != source) path.push_back(source);
+        return path;
+    }
+
+    void EnqueueDistances(int x)
+    {
+        if (node_table[x].is_explored == true) return;
+        // key difference: iterate over neighbors directly instead of all vertices
+        for (ListNode& neighbor : List->GetEdges(x))
+        {
+            int i = neighbor.vertice;
+            int weight = neighbor.weight;
+            if (!node_table[i].is_explored)
+            {
+                if ((node_table[i].distance == -1) || (node_table[x].distance + weight) < node_table[i].distance)
+                {
+                    node_table[i].distance = node_table[x].distance + weight;
+                    node_table[i].last_node = x;
+                    min_pq.enqueue(-node_table[i].distance, i);
+                }
+            }
+        }
+        node_table[x].is_explored = true;
+    }
 };
 struct Dijkstra_matrix
 {

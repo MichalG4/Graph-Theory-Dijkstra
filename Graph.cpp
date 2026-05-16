@@ -120,11 +120,15 @@ std::vector<ListNode> AdjacencyList::GetEdges(int y)//possibly shold return &
 {
     return List[y];
 }
+size_t AdjacencyList::GetSize()
+{
+    return List.size();
+}
 int AdjacencyList::GetSpecificEdge(int x,int y)
 {
     for(int i=0; i<(int)List[x].size();i++)
     {
-        if(List[x][i].vertice=y)
+        if(List[x][i].vertice==y)
         return (int)List[x][i].weight;
     }
     return -1;
