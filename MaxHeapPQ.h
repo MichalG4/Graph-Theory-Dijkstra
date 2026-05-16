@@ -4,7 +4,7 @@ struct PQElement {
     int priority;
     int vertice;
 };
-struct binary_heap_max_priority_queue : PQElement
+struct binary_heap_max_priority_queue
 {
     private:
     PQElement *table;

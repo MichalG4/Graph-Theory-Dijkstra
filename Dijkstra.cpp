@@ -17,11 +17,9 @@ std::vector<int> Dijkstra::PathReconstruct(int source, int destination)
     return path;
 }
 
-Dijkstra_list::Dijkstra_list()
-    : List(nullptr), min_pq() {}
+Dijkstra_list::Dijkstra_list() : List(nullptr), min_pq() {}
 
-Dijkstra_list::Dijkstra_list(AdjacencyList &list)
-    : List(&list), min_pq()
+Dijkstra_list::Dijkstra_list(AdjacencyList &list) : List(&list), min_pq()
 {
     for (int i = 0; i < List->GetSize(); ++i)
         node_table.emplace_back(i);
@@ -59,7 +57,7 @@ std::vector<std::vector<int>> Dijkstra_list::PathToAll(int source)
 
 void Dijkstra_list::EnqueueDistances(int x)
 {
-    if (node_table[x].is_explored)
+    if (node_table[x].is_explored) //skip left out entries
         return;
 
     for (ListNode &neighbor : List->GetEdges(x))
@@ -81,11 +79,9 @@ void Dijkstra_list::EnqueueDistances(int x)
     node_table[x].is_explored = true;
 }
 
-Dijkstra_matrix::Dijkstra_matrix()
-    : Matrix(nullptr), min_pq() {}
+Dijkstra_matrix::Dijkstra_matrix(): Matrix(nullptr), min_pq() {}
 
-Dijkstra_matrix::Dijkstra_matrix(AdjacencyMatrix &matrix)
-    : Matrix(&matrix), min_pq()
+Dijkstra_matrix::Dijkstra_matrix(AdjacencyMatrix &matrix): Matrix(&matrix), min_pq()
 {
     for (int i = 0; i < Matrix->GetSize(); ++i)
         node_table.emplace_back(i);
@@ -129,7 +125,7 @@ void Dijkstra_matrix::EnqueueDistances(int x)
     for (int i = 0; i < Matrix->GetSize(); ++i)
     {
         int edgeWeight = Matrix->GetSpecificEdge(x, i);
-        if (!node_table[i].is_explored && edgeWeight > -1)
+        if (!node_table[i].is_explored && edgeWeight > -1/*if it exists*/)
         {
             int newDist = node_table[x].distance + edgeWeight;
             if (node_table[i].distance == -1 || newDist < node_table[i].distance)
