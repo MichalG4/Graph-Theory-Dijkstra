@@ -1,9 +1,13 @@
 #pragma once
 
-struct binary_heap_max_priority_queue
+struct PQElement {
+    int priority;
+    int vertice;
+};
+struct binary_heap_max_priority_queue : PQElement
 {
     private:
-    int *table;
+    PQElement *table;
     int size;
     int left_node(int index);
     int right_node(int index);
@@ -15,7 +19,7 @@ struct binary_heap_max_priority_queue
     binary_heap_max_priority_queue();
     binary_heap_max_priority_queue(int SIZE);
     ~binary_heap_max_priority_queue();
-    void enqueue(int element);
+    void enqueue(int priority, int vertice);
     int dequeue();
     int peek();
     void delete_max();

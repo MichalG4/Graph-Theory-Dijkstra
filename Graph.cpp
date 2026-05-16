@@ -7,6 +7,7 @@
 // one directional edges
 // error handling at connecting one point to self
 // could sort list to make removing easier OR hash map
+// add out of bounds for matrix
 AdjacencyMatrix::AdjacencyMatrix()
 {
     Matrix=std::vector<std::vector<int>>(V, std::vector<int>(V,-1));
@@ -20,6 +21,10 @@ AdjacencyMatrix::AdjacencyMatrix(int SIZE)
     edges=0;
 }
 AdjacencyMatrix::~AdjacencyMatrix(){}
+size_t AdjacencyMatrix::GetSize()
+{
+    return Matrix.size();
+}
 void AdjacencyMatrix::AddEdge(int x,int y,int weight)
 {
     if(x!=y && x<size && y<size && Matrix[x][y]==-1)
@@ -111,11 +116,16 @@ float AdjacencyList::GetDensity()
 {
     return density;
 }
-std::vector<int> AdjacencyList::GetEdges(int y)//possibly shold return &
+std::vector<ListNode> AdjacencyList::GetEdges(int y)//possibly shold return &
 {
-    return 
+    return List[y];
 }
 int AdjacencyList::GetSpecificEdge(int x,int y)
 {
-    
+    for(int i=0; i<(int)List[x].size();i++)
+    {
+        if(List[x][i].vertice=y)
+        return (int)List[x][i].weight;
+    }
+    return -1;
 }

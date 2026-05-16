@@ -22,7 +22,7 @@ int binary_heap_max_priority_queue::parent_node(int index)
 
 void binary_heap_max_priority_queue::swap(int a, int b)
 {
-    int temp = table[a];
+    PQElement temp = table[a];
     table[a] = table[b];
     table[b] = temp;
 }
@@ -32,7 +32,7 @@ void binary_heap_max_priority_queue::heap_up(int index)
     int parent_index = parent_node(index);
     if (index == 0)
         return;
-    else if (table[parent_index] < table[index])
+    else if (table[parent_index].priority < table[index].priority)
     {
         swap(parent_index, index);
         heap_up(parent_index);
@@ -43,12 +43,12 @@ void binary_heap_max_priority_queue::heap_down(int index)
 {
     int max_child = 0;  // max child's index
     if (right_node(index) < size)                                                                              // Find max child
-        max_child = table[left_node(index)] > table[right_node(index)] ? left_node(index) : right_node(index); // Find max child
+        max_child = table[left_node(index)].priority > table[right_node(index)].priority ? left_node(index) : right_node(index); // Find max child
     else if (left_node(index) < size)                                                                          // Find max child
         max_child = left_node(index);                                                                   // Find max child
     else
         return;
-    if ((max_child > 0) && (table[max_child] > table[index]))
+    if ((max_child > 0) && (table[max_child].priority > table[index].priority))
     {
         swap(index, max_child);
         heap_down(max_child);
@@ -57,13 +57,13 @@ void binary_heap_max_priority_queue::heap_down(int index)
 
 binary_heap_max_priority_queue::binary_heap_max_priority_queue()
 {
-    table = new int[V];
+    table = new PQElement[V];
     size = 0;
 }
 
 binary_heap_max_priority_queue::binary_heap_max_priority_queue(int SIZE)
 {
-    table = new int[SIZE];
+    table = new PQElement[SIZE];
     size = 0;
 }
 
@@ -72,25 +72,25 @@ binary_heap_max_priority_queue::~binary_heap_max_priority_queue()
     delete[] table;
 }
 
-void binary_heap_max_priority_queue::enqueue(int element)
+void binary_heap_max_priority_queue::enqueue(int priority, int vertice)
 {
-    table[size] = element;
+    table[size] = {priority, vertice};
     heap_up(size);
     size++;
 }
 
-int binary_heap_max_priority_queue::dequeue()
+int binary_heap_max_priority_queue::dequeue() //vertice with highest priority
 {
     if (size == 0) return -1;
     swap(0, --size);
     heap_down(0);
-    return table[size];
+    return table[size].vertice;
 }
 
 int binary_heap_max_priority_queue::peek()
 {
     if (size == 0) return -1;
-    return table[0];
+    return table[0].vertice;
 }
 
 void binary_heap_max_priority_queue::delete_max()

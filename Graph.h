@@ -12,7 +12,7 @@ struct IGraph
     virtual int GetSpecificEdge(int x,int y)=0;
     protected:
     float density;
-    int size; //number of vertices
+    int size; //number of vertices i guess not needed as we have vector.size
     int edges;
 
 };
@@ -28,6 +28,7 @@ struct AdjacencyMatrix:public IGraph
     float GetDensity();
     int GetSpecificEdge(int x,int y);
     std::vector<int> GetEdges(int y);
+    size_t GetSize();
     private:
     std::vector<std::vector<int>> Matrix; 
 };
