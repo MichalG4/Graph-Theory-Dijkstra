@@ -57,13 +57,13 @@ void binary_heap_max_priority_queue::heap_down(int index)
 
 binary_heap_max_priority_queue::binary_heap_max_priority_queue()
 {
-    table = new PQElement[V];
+    table = new PQElement[V*V];
     size = 0;
 }
 
 binary_heap_max_priority_queue::binary_heap_max_priority_queue(int SIZE)
 {
-    table = new PQElement[SIZE];
+    table = new PQElement[SIZE*SIZE];
     size = 0;
 }
 

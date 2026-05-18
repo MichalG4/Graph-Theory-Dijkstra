@@ -28,7 +28,6 @@ Dijkstra_list::Dijkstra_list(AdjacencyList &list) : List(&list), min_pq()
 std::vector<int> Dijkstra_list::PathTo(int source, int destination)
 {
     node_table[source].distance = 0;
-    node_table[source].is_explored = true;
     node_table[source].last_node = -1;
     min_pq.enqueue(0, source);
 
@@ -90,7 +89,6 @@ Dijkstra_matrix::Dijkstra_matrix(AdjacencyMatrix &matrix): Matrix(&matrix), min_
 std::vector<int> Dijkstra_matrix::PathTo(int source, int destination)
 {
     node_table[source].distance = 0;
-    node_table[source].is_explored = true;
     node_table[source].last_node = -1;
     min_pq.enqueue(0, source);
 
